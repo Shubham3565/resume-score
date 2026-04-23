@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import FileDropZone from "@/components/file-drop-zone";
 import { usePdfExtract } from "@/hooks/use-pdf-extract";
@@ -42,11 +42,11 @@ export default function ResumePanel({
     await pdf.handleFile(file);
   };
 
-  /* Sync extracted PDF text upward once extraction completes */
-  const prevPdfText = pdf.text;
-  if (activeTab === "upload" && prevPdfText) {
-    onResumeReady(prevPdfText);
-  }
+  useEffect(() => {
+    if (activeTab === "upload") {
+      onResumeReady(pdf.text);
+    }
+  }, [activeTab, pdf.text, onResumeReady]);
 
   return (
     <div className="flex flex-col gap-2.5 rounded-xl border border-border-light bg-surface p-3.5 max-[480px]:p-3">

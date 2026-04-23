@@ -23,7 +23,27 @@ interface UsePdfExtractReturn extends PdfExtractState {
 }
 
 /**
+ * Configures the pdf.js worker with fallbacks for environments where
+ * module workers are unsupported (e.g. iOS Safari).
+ */
+async function initPdfWorker(
+  pdfjsLib: typeof import("pdfjs-dist")
+): Promise<void> {
+  try {
+    const workerUrl = new URL(
+      "pdfjs-dist/build/pdf.worker.min.mjs",
+      import.meta.url
+    ).toString();
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
+  } catch {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "";
+  }
+}
+
+/**
  * Custom hook that wraps pdf.js to extract text from uploaded PDF files.
+ * Includes a fallback for iOS Safari where module workers may not load.
  *
  * Returns:
  *   Object with extraction state and control functions.
@@ -48,13 +68,11 @@ export function usePdfExtract(): UsePdfExtractReturn {
 
     try {
       const pdfjsLib = await import("pdfjs-dist");
-      pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-        "pdfjs-dist/build/pdf.worker.min.mjs",
-        import.meta.url
-      ).toString();
+      await initPdfWorker(pdfjsLib);
 
       const arrayBuffer = await file.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+      const pdf = await loadingTask.promise;
 
       let fullText = "";
       for (let i = 1; i <= pdf.numPages; i++) {
@@ -67,6 +85,17 @@ export function usePdfExtract(): UsePdfExtractReturn {
       }
 
       const trimmed = fullText.trim();
+
+      if (!trimmed) {
+        setState((prev) => ({
+          ...prev,
+          fileInfo: "No text found in PDF — try Paste Text instead",
+          extracting: false,
+          error: "PDF contained no extractable text",
+        }));
+        return;
+      }
+
       const charCount = trimmed.length.toLocaleString();
       const pageLabel = pdf.numPages === 1 ? "page" : "pages";
 

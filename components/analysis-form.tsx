@@ -15,20 +15,32 @@ import { useAnalysis } from "@/hooks/use-analysis";
 export default function AnalysisForm() {
   const [jd, setJd] = useState("");
   const [pasteResume, setPasteResume] = useState("");
+  const [hasResume, setHasResume] = useState(false);
   const resumeTextRef = useRef("");
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const { result, loading, error, analyze } = useAnalysis();
+  const [formError, setFormError] = useState<string | null>(null);
 
   const handleResumeReady = useCallback((text: string) => {
     resumeTextRef.current = text;
+    setHasResume(!!text.trim());
   }, []);
 
   const handleAnalyze = async () => {
+    setFormError(null);
     const resume = resumeTextRef.current;
 
-    if (!jd.trim()) return;
-    if (!resume.trim()) return;
+    if (!jd.trim()) {
+      setFormError("Please paste a job description first.");
+      return;
+    }
+    if (!resume.trim()) {
+      setFormError(
+        "No resume text detected. Try pasting your resume text directly using the Paste Text tab."
+      );
+      return;
+    }
 
     await analyze(jd, resume);
 
@@ -39,6 +51,8 @@ export default function AnalysisForm() {
       });
     }, 100);
   };
+
+  const displayError = formError || error;
 
   return (
     <>
@@ -54,12 +68,12 @@ export default function AnalysisForm() {
       <AnalyzeButton
         onClick={handleAnalyze}
         loading={loading}
-        disabled={!jd.trim()}
+        disabled={!jd.trim() && !hasResume}
       />
 
-      {error && (
-        <div className="mb-2.5 rounded-lg border border-score-red-mid bg-score-red-bg px-3.5 py-2.5 text-[13px] text-score-red-text">
-          {error}
+      {displayError && (
+        <div className="mt-2.5 rounded-lg border border-score-red-mid bg-score-red-bg px-3.5 py-2.5 text-[13px] text-score-red-text">
+          {displayError}
         </div>
       )}
 
