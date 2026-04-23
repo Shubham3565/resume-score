@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Manrope } from "next/font/google";
 
 import { Analytics } from "@vercel/analytics/react";
-import Navbar from "@/components/navbar";
+import ClientShell from "@/components/client-shell";
 import "./globals.css";
 
 const inter = Inter({
@@ -42,8 +42,9 @@ export default function RootLayout({
         />
       </head>
       <body className="flex min-h-dvh flex-col font-sans">
-        <Navbar apiConfigured={apiConfigured} />
-        {children}
+        <ClientShell apiConfigured={apiConfigured}>
+          {children}
+        </ClientShell>
         <Analytics />
       </body>
     </html>

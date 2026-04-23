@@ -1,16 +1,18 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 
 import JobDescriptionPanel from "@/components/job-description-panel";
 import ResumePanel from "@/components/resume-panel";
 import AnalyzeButton from "@/components/analyze-button";
 import ResultsDashboard from "@/components/results/results-dashboard";
 import { useAnalysis } from "@/hooks/use-analysis";
+import { useResultsContext } from "@/lib/results-context";
 
 /**
  * Top-level client component that orchestrates all interactive state:
  * job description text, resume text, analysis trigger, and results display.
+ * Pushes results into ResultsContext for navbar awareness.
  */
 export default function AnalysisForm() {
   const [jd, setJd] = useState("");
@@ -19,8 +21,25 @@ export default function AnalysisForm() {
   const resumeTextRef = useRef("");
   const resultsRef = useRef<HTMLDivElement>(null);
 
-  const { result, loading, error, truncation, analyze } = useAnalysis();
+  const { result, loading, error, truncation, analyze, reset } = useAnalysis();
   const [formError, setFormError] = useState<string | null>(null);
+
+  const { setResult: pushResult, resetToken } = useResultsContext();
+
+  useEffect(() => {
+    pushResult(result);
+  }, [result, pushResult]);
+
+  useEffect(() => {
+    if (resetToken === 0) return;
+    setJd("");
+    setPasteResume("");
+    setHasResume(false);
+    resumeTextRef.current = "";
+    setFormError(null);
+    reset();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [resetToken, reset]);
 
   const handleResumeReady = useCallback((text: string) => {
     resumeTextRef.current = text;

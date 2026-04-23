@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useResultsContext } from "@/lib/results-context";
+import { downloadReport } from "@/lib/export-report";
 
 interface NavbarProps {
   apiConfigured: boolean;
@@ -8,10 +10,11 @@ interface NavbarProps {
 
 /**
  * Sticky top navigation bar with glass blur, brand mark, dark mode toggle,
- * and server-status indicator.
+ * server-status indicator, and contextual action buttons (Export / New Analysis).
  */
 export default function Navbar({ apiConfigured }: NavbarProps) {
   const [dark, setDark] = useState(false);
+  const { result, requestReset } = useResultsContext();
 
   useEffect(() => {
     setDark(document.documentElement.getAttribute("data-theme") === "dark");
@@ -24,8 +27,13 @@ export default function Navbar({ apiConfigured }: NavbarProps) {
     localStorage.setItem("theme", next ? "dark" : "light");
   };
 
+  const handleExport = () => {
+    if (result) downloadReport(result);
+  };
+
   return (
-    <nav className="sticky top-0 z-50 flex h-14 items-center justify-between border-b border-border-light px-6 backdrop-blur-xl max-[480px]:px-3.5"
+    <nav
+      className="sticky top-0 z-50 flex h-14 items-center justify-between border-b border-border-light px-6 backdrop-blur-xl max-[480px]:px-3.5"
       style={{ background: "color-mix(in srgb, var(--bg) 80%, transparent)" }}
     >
       <div className="flex items-center gap-2.5">
@@ -48,6 +56,33 @@ export default function Navbar({ apiConfigured }: NavbarProps) {
       </div>
 
       <div className="flex items-center gap-1.5">
+        {result && (
+          <>
+            <button
+              onClick={handleExport}
+              className="flex h-[34px] cursor-pointer items-center gap-1.5 rounded-lg border border-border-md bg-surface-2 px-3 text-[12px] font-medium text-muted transition-all hover:border-border-light hover:bg-surface-bright hover:text-foreground max-[640px]:px-2"
+              title="Export Report"
+            >
+              <svg className="h-[15px] w-[15px] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              <span className="max-[640px]:hidden">Export Report</span>
+            </button>
+            <button
+              onClick={requestReset}
+              className="flex h-[34px] cursor-pointer items-center gap-1.5 rounded-lg border border-border-md bg-surface-2 px-3 text-[12px] font-medium text-muted transition-all hover:border-border-light hover:bg-surface-bright hover:text-foreground max-[640px]:px-2"
+              title="New Analysis"
+            >
+              <svg className="h-[15px] w-[15px] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="23 4 23 10 17 10" />
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+              </svg>
+              <span className="max-[640px]:hidden">New Analysis</span>
+            </button>
+          </>
+        )}
         <div className="flex items-center gap-1.5 rounded-full border border-border-md bg-surface-2 px-3 py-1.5 text-xs font-medium text-muted max-[360px]:px-2 max-[360px]:text-[11px]">
           <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${apiConfigured ? "bg-score-green-mid" : "bg-faint"}`} />
           <span>{apiConfigured ? "Connected" : "Not configured"}</span>
