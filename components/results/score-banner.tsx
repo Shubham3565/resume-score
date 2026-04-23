@@ -11,8 +11,8 @@ interface ScoreBannerProps {
  */
 export default function ScoreBanner({ result }: ScoreBannerProps) {
   return (
-    <div className="flex items-center gap-5 rounded-xl border border-border-light bg-surface px-6 py-5">
-      <div className="relative shrink-0">
+    <div className="flex items-center gap-5 rounded-xl border border-border-light bg-surface px-6 py-5 max-[480px]:flex-col max-[480px]:items-start max-[480px]:gap-3 max-[480px]:px-4 max-[480px]:py-4">
+      <div className="relative shrink-0 max-[480px]:self-center">
         <ScoreRing score={result.score} />
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <span
@@ -23,7 +23,7 @@ export default function ScoreBanner({ result }: ScoreBannerProps) {
           <small className="text-[11px] text-muted">/100</small>
         </div>
       </div>
-      <div>
+      <div className="max-[480px]:text-center max-[480px]:self-center">
         <h2 className="text-[17px] font-semibold">ATS Match Score</h2>
         <p className="mt-1 max-w-[420px] text-[13px] leading-relaxed text-muted">
           {result.verdict_reason}

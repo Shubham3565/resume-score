@@ -78,6 +78,13 @@ body {
   color: var(--text);
   font-size: 15px;
   line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
 }
 
 @keyframes spin {

@@ -42,7 +42,7 @@ export default function AnalysisForm() {
 
   return (
     <>
-      <div className="mb-3 grid grid-cols-2 gap-3 max-[620px]:grid-cols-1">
+      <div className="mb-3 grid grid-cols-2 gap-3 max-[620px]:grid-cols-1 max-[480px]:gap-2.5">
         <JobDescriptionPanel value={jd} onChange={setJd} />
         <ResumePanel
           pasteValue={pasteResume}

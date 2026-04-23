@@ -10,7 +10,7 @@ interface NavbarProps {
 
 export default function Navbar({ apiConfigured }: NavbarProps) {
   return (
-    <nav className="sticky top-0 z-50 flex h-[52px] items-center justify-between border-b border-border-light bg-surface px-6">
+    <nav className="sticky top-0 z-50 flex h-[52px] items-center justify-between border-b border-border-light bg-surface px-6 max-[480px]:px-3.5">
       <div className="flex items-center gap-2.5">
         <div className="flex h-7 w-7 items-center justify-center rounded-md bg-foreground">
           <svg
@@ -32,9 +32,9 @@ export default function Navbar({ apiConfigured }: NavbarProps) {
           ATS Matcher
         </span>
       </div>
-      <div className="flex items-center gap-1.5 rounded-full border border-border-md bg-surface-2 px-3 py-1.5 text-xs font-medium text-muted">
+      <div className="flex items-center gap-1.5 rounded-full border border-border-md bg-surface-2 px-3 py-1.5 text-xs font-medium text-muted max-[360px]:px-2 max-[360px]:text-[11px]">
         <span
-          className={`h-1.5 w-1.5 rounded-full ${
+          className={`h-1.5 w-1.5 shrink-0 rounded-full ${
             apiConfigured ? "bg-score-green-mid" : "bg-faint"
           }`}
         />

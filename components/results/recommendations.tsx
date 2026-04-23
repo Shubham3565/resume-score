@@ -26,7 +26,7 @@ export default function Recommendations({ tips }: RecommendationsProps) {
   if (!tips.length) return null;
 
   return (
-    <div className="rounded-xl border border-border-light bg-surface px-4 py-4">
+    <div className="rounded-xl border border-border-light bg-surface px-4 py-4 max-[480px]:px-3.5">
       <h3 className="mb-3 text-[11px] font-semibold uppercase tracking-wider text-muted">
         Recommendations
       </h3>

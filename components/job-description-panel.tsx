@@ -12,12 +12,12 @@ export default function JobDescriptionPanel({
   onChange,
 }: JobDescriptionPanelProps) {
   return (
-    <div className="flex flex-col gap-2.5 rounded-xl border border-border-light bg-surface p-3.5">
+    <div className="flex flex-col gap-2.5 rounded-xl border border-border-light bg-surface p-3.5 max-[480px]:p-3">
       <span className="text-[11px] font-semibold uppercase tracking-wider text-muted">
         Job Description
       </span>
       <textarea
-        className="h-[180px] resize-y rounded-lg border border-border-light bg-surface-2 px-3 py-2.5 text-[13px] leading-relaxed text-foreground outline-none placeholder:text-faint focus:border-border-md"
+        className="h-[180px] resize-y rounded-lg border border-border-light bg-surface-2 px-3 py-2.5 text-[13px] leading-relaxed text-foreground outline-none placeholder:text-faint focus:border-border-md max-[480px]:h-[140px]"
         placeholder="Paste the full job description here…"
         value={value}
         onChange={(e) => onChange(e.target.value)}

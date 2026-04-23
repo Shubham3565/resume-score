@@ -34,9 +34,9 @@ export default function MiniCards({ result }: MiniCardsProps) {
   ];
 
   return (
-    <div className="grid grid-cols-3 gap-2.5 max-[480px]:grid-cols-2">
+    <div className="grid grid-cols-3 gap-2.5 max-[480px]:grid-cols-1 max-[480px]:gap-2">
       {cards.map((card) => (
-        <div key={card.label} className="rounded-lg bg-surface-2 px-4 py-3.5">
+        <div key={card.label} className="rounded-lg bg-surface-2 px-4 py-3.5 max-[480px]:flex max-[480px]:items-center max-[480px]:justify-between max-[480px]:px-3.5 max-[480px]:py-3">
           <div className="mb-1 text-[11px] font-medium uppercase tracking-wide text-muted">
             {card.label}
           </div>
