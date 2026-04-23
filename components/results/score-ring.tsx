@@ -1,17 +1,17 @@
 import { scoreStrokeColor } from "@/lib/colors";
 
 interface ScoreRingProps {
-  /** Score value from 0 to 100. */
   score: number;
-  /** Diameter of the SVG in pixels. */
   size?: number;
+  dark?: boolean;
 }
 
 /**
  * Circular SVG ring that fills proportionally to the score.
+ * Supports a dark variant (white track) for use on gradient banners.
  */
-export default function ScoreRing({ score, size = 92 }: ScoreRingProps) {
-  const radius = 38;
+export default function ScoreRing({ score, size = 100, dark }: ScoreRingProps) {
+  const radius = 40;
   const cx = size / 2;
   const cy = size / 2;
   const circumference = 2 * Math.PI * radius;
@@ -29,7 +29,8 @@ export default function ScoreRing({ score, size = 92 }: ScoreRingProps) {
         cy={cy}
         r={radius}
         fill="none"
-        className="stroke-surface-2"
+        stroke={dark ? "rgba(255,255,255,0.12)" : undefined}
+        className={dark ? undefined : "stroke-surface-2"}
         strokeWidth={7}
       />
       <circle

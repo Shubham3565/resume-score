@@ -69,6 +69,7 @@ export default function AnalysisForm() {
         onClick={handleAnalyze}
         loading={loading}
         disabled={!jd.trim() && !hasResume}
+        hasResults={!!result}
       />
 
       {displayError && (

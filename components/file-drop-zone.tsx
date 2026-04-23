@@ -3,12 +3,11 @@
 import { useCallback, useRef, useState } from "react";
 
 interface FileDropZoneProps {
-  /** Called when a valid PDF file is selected or dropped. */
   onFile: (file: File) => void;
 }
 
 /**
- * Drag-and-drop zone for PDF file uploads with a hidden file input fallback.
+ * Drag-and-drop zone for PDF uploads with indigo accent on hover.
  */
 export default function FileDropZone({ onFile }: FileDropZoneProps) {
   const [dragOver, setDragOver] = useState(false);
@@ -36,10 +35,10 @@ export default function FileDropZone({ onFile }: FileDropZoneProps) {
 
   return (
     <div
-      className={`relative cursor-pointer rounded-lg border-[1.5px] border-dashed bg-surface-2 px-3 py-6 text-center transition-colors ${
+      className={`relative cursor-pointer rounded-lg border-[1.5px] border-dashed px-3 py-6 text-center transition-all ${
         dragOver
-          ? "border-faint bg-surface"
-          : "border-border-md hover:border-faint hover:bg-surface"
+          ? "border-sky/60 bg-sky/5"
+          : "border-border-md bg-surface-2 hover:border-sky/40 hover:bg-sky/[0.03]"
       }`}
       onDragOver={(e) => {
         e.preventDefault();
@@ -56,13 +55,16 @@ export default function FileDropZone({ onFile }: FileDropZoneProps) {
         className="hidden"
         onChange={handleChange}
       />
-      <div className="mx-auto mb-2 flex h-[30px] w-[30px] items-center justify-center rounded-lg border border-border-light bg-surface">
+      <div
+        className="mx-auto mb-2 flex h-[30px] w-[30px] items-center justify-center rounded-lg"
+        style={{ background: "color-mix(in srgb, var(--sky) 10%, transparent)", color: "var(--sky)" }}
+      >
         <svg
           className="h-3.5 w-3.5"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="var(--text2)"
-          strokeWidth={1.5}
+          stroke="currentColor"
+          strokeWidth={2}
           strokeLinecap="round"
           strokeLinejoin="round"
         >

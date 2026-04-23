@@ -1,6 +1,5 @@
 import type { AnalysisResult } from "@/types/analysis";
 import ScoreBanner from "./score-banner";
-import MiniCards from "./mini-cards";
 import KeywordTabs from "./keyword-tabs";
 import BreakdownSection from "./breakdown-section";
 import StrongPoints from "./strong-points";
@@ -15,7 +14,9 @@ interface ResultsDashboardProps {
 }
 
 /**
- * Wrapper that composes all result sub-sections into a single dashboard.
+ * Two-column results layout. Score banner spans full width, then
+ * left column gets skills/breakdown/strong-points/sections,
+ * right column gets rewrites/recommendations/skills-gap.
  */
 export default function ResultsDashboard({ result }: ResultsDashboardProps) {
   const keywords = {
@@ -26,17 +27,23 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
   };
 
   return (
-    <div className="space-y-2.5">
+    <div className="space-y-3" style={{ animation: "fadeIn 0.4s ease-out" }}>
       <ScoreBanner result={result} />
-      <MiniCards result={result} />
       <RedFlags flags={result.red_flags} />
-      <StrongPoints points={result.strong_points} />
-      <KeywordTabs keywords={keywords} />
-      <BreakdownSection result={result} />
-      <SectionCheck sections={result.section_check} />
-      <RewriteSuggestions rewrites={result.rewrites} />
-      <Recommendations tips={result.tips} />
-      <SkillsGap skills={result.skills_gap} />
+
+      <div className="grid grid-cols-2 gap-3 max-[1100px]:grid-cols-1">
+        <div className="space-y-3">
+          <KeywordTabs keywords={keywords} />
+          <BreakdownSection result={result} />
+          <StrongPoints points={result.strong_points} />
+          <SectionCheck sections={result.section_check} />
+        </div>
+        <div className="space-y-3">
+          <RewriteSuggestions rewrites={result.rewrites} />
+          <Recommendations tips={result.tips} />
+          <SkillsGap skills={result.skills_gap} />
+        </div>
+      </div>
     </div>
   );
 }
