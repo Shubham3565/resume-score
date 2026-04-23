@@ -9,6 +9,8 @@ interface PdfExtractState {
   fileName: string;
   /** Human-readable info string (e.g. "1,200 chars · 2 pages"). */
   fileInfo: string;
+  /** Number of pages in the PDF, or 0 if unknown. */
+  pages: number;
   /** Whether extraction is currently in progress. */
   extracting: boolean;
   /** Error message if extraction failed. */
@@ -35,6 +37,7 @@ export function usePdfExtract(): UsePdfExtractReturn {
     text: "",
     fileName: "",
     fileInfo: "",
+    pages: 0,
     extracting: false,
     error: null,
   });
@@ -44,6 +47,7 @@ export function usePdfExtract(): UsePdfExtractReturn {
       text: "",
       fileName: file.name,
       fileInfo: "Extracting…",
+      pages: 0,
       extracting: true,
       error: null,
     });
@@ -77,6 +81,7 @@ export function usePdfExtract(): UsePdfExtractReturn {
         text,
         fileName: file.name,
         fileInfo: `${charCount} chars · ${pages} ${pageLabel}`,
+        pages,
         extracting: false,
         error: null,
       });
@@ -95,6 +100,7 @@ export function usePdfExtract(): UsePdfExtractReturn {
       text: "",
       fileName: "",
       fileInfo: "",
+      pages: 0,
       extracting: false,
       error: null,
     });

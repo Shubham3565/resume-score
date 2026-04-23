@@ -112,7 +112,7 @@ export default function ResumePanel({
                     <div className="text-[10px] text-faint">Words</div>
                   </div>
                   <div className="rounded-lg bg-surface-2 px-2.5 py-2 text-center">
-                    <div className="text-[13px] font-bold text-foreground">{pdf.fileInfo?.match(/\d+/)?.[0] ?? "—"}</div>
+                    <div className="text-[13px] font-bold text-foreground">{pdf.pages || "—"}</div>
                     <div className="text-[10px] text-faint">Pages</div>
                   </div>
                   <div className="rounded-lg bg-surface-2 px-2.5 py-2 text-center">
