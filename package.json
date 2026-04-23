@@ -10,9 +10,9 @@
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
+    "docutext": "^1.2.1",
     "groq-sdk": "^1.1.2",
     "next": "16.2.4",
-    "pdfjs-dist": "^5.6.205",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "zod": "^4.3.6"
