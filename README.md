@@ -4,11 +4,15 @@
 
 **AI-powered resume analysis that tells you exactly how well you match a job description.**
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_App-00C853?style=for-the-badge&logo=vercel&logoColor=white)](https://resume-score-six.vercel.app/)
+
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Groq](https://img.shields.io/badge/Groq-LLaMA_3.3_70B-F55036?style=flat-square)](https://groq.com/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
+
+**[Try it live &rarr; resume-score-six.vercel.app](https://resume-score-six.vercel.app/)**
 
 <br />
 
@@ -187,7 +191,9 @@ GROQ_API_KEY=gsk_your_key_here
 
 ### Vercel (Recommended)
 
-The easiest way to deploy — Vercel is built for Next.js:
+This app is deployed on Vercel: **[resume-score-six.vercel.app](https://resume-score-six.vercel.app/)**
+
+To deploy your own instance:
 
 1. Push your code to GitHub
 2. Go to [vercel.com](https://vercel.com) and import your repo
