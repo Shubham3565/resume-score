@@ -12,7 +12,7 @@ interface CardData {
 }
 
 /**
- * Three mini stat cards showing Skills, Experience, and Keywords scores.
+ * Stat cards showing all scoring dimensions at a glance.
  */
 export default function MiniCards({ result }: MiniCardsProps) {
   const cards: CardData[] = [
@@ -31,10 +31,25 @@ export default function MiniCards({ result }: MiniCardsProps) {
       value: result.keyword_density_score,
       subtitle: `${result.total_keywords_matched}/${result.total_keywords_in_jd} found`,
     },
+    {
+      label: "Impact",
+      value: result.impact_score,
+      subtitle: "Quantified results",
+    },
+    {
+      label: "Tailoring",
+      value: result.tailoring_score,
+      subtitle: "JD customization",
+    },
+    {
+      label: "Title Fit",
+      value: result.title_alignment_score,
+      subtitle: "Role alignment",
+    },
   ];
 
   return (
-    <div className="grid grid-cols-3 gap-2.5 max-[480px]:grid-cols-1 max-[480px]:gap-2">
+    <div className="grid grid-cols-3 gap-2.5 max-[620px]:grid-cols-2 max-[480px]:grid-cols-1 max-[480px]:gap-2">
       {cards.map((card) => (
         <div key={card.label} className="rounded-lg bg-surface-2 px-4 py-3.5 max-[480px]:flex max-[480px]:items-center max-[480px]:justify-between max-[480px]:px-3.5 max-[480px]:py-3">
           <div className="mb-1 text-[11px] font-medium uppercase tracking-wide text-muted">

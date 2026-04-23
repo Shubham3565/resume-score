@@ -19,6 +19,9 @@ export default function BreakdownSection({ result }: BreakdownSectionProps) {
     { label: "Experience", value: result.experience_score },
     { label: "Education", value: result.education_score },
     { label: "Keywords", value: result.keyword_density_score },
+    { label: "Impact & Metrics", value: result.impact_score },
+    { label: "Tailoring", value: result.tailoring_score },
+    { label: "Title Alignment", value: result.title_alignment_score },
   ];
 
   return (
