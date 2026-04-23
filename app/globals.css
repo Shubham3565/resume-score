@@ -1,26 +1,99 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface2);
+  --color-border-light: var(--border);
+  --color-border-md: var(--border-md);
+  --color-muted: var(--text2);
+  --color-faint: var(--text3);
+
+  --color-score-green-bg: var(--green-bg);
+  --color-score-green-text: var(--green-t);
+  --color-score-green-mid: var(--green-m);
+  --color-score-blue-bg: var(--blue-bg);
+  --color-score-blue-text: var(--blue-t);
+  --color-score-blue-mid: var(--blue-m);
+  --color-score-amber-bg: var(--amber-bg);
+  --color-score-amber-text: var(--amber-t);
+  --color-score-amber-mid: var(--amber-m);
+  --color-score-red-bg: var(--red-bg);
+  --color-score-red-text: var(--red-t);
+  --color-score-red-mid: var(--red-m);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
+:root {
+  --bg: #f7f7f5;
+  --surface: #fff;
+  --surface2: #f0f0ed;
+  --border: rgba(0, 0, 0, 0.09);
+  --border-md: rgba(0, 0, 0, 0.16);
+  --text: #1a1a18;
+  --text2: #6b6b66;
+  --text3: #a0a09a;
+
+  --green-bg: #eaf3de;
+  --green-t: #3b6d11;
+  --green-m: #97c459;
+  --blue-bg: #e6f1fb;
+  --blue-t: #185fa5;
+  --blue-m: #378add;
+  --amber-bg: #faeeda;
+  --amber-t: #854f0b;
+  --amber-m: #ef9f27;
+  --red-bg: #fcebeb;
+  --red-t: #a32d2d;
+  --red-m: #e24b4a;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: #111110;
+    --surface: #1c1c1a;
+    --surface2: #242422;
+    --border: rgba(255, 255, 255, 0.07);
+    --border-md: rgba(255, 255, 255, 0.14);
+    --text: #f0f0ec;
+    --text2: #9a9a94;
+    --text3: #606058;
+
+    --green-bg: #162810;
+    --green-t: #97c459;
+    --blue-bg: #0d1e33;
+    --blue-t: #378add;
+    --amber-bg: #2b1e08;
+    --amber-t: #ef9f27;
+    --red-bg: #2a1010;
+    --red-t: #e24b4a;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-bar {
+  0%,
+  100% {
+    width: 15%;
+    margin-left: 0%;
+  }
+  50% {
+    width: 55%;
+    margin-left: 22%;
+  }
 }

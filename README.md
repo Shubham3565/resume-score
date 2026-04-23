@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ATS Resume Matcher
+
+AI-powered resume-to-job-description matching tool built with Next.js, TypeScript, and Tailwind CSS. Uses Groq's LLM API to analyze how well a resume matches a given job description.
+
+## Features
+
+- **PDF upload** with client-side text extraction (pdf.js)
+- **Paste text** alternative for resume input
+- **AI analysis** via Groq API (llama-3.3-70b-versatile)
+- **Detailed scoring**: overall match, skills, experience, education, keyword density
+- **Keyword breakdown**: matched, missing, partial, and bonus keywords
+- **Actionable recommendations** with categorized tips
+- **Dark mode** support via system preference
+- **Server-side API key** — your Groq key is never exposed to the browser
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 20+ and npm
+- A [Groq API key](https://console.groq.com) (free tier available)
+
+### Setup
 
 ```bash
+# Install dependencies
+npm install
+
+# Add your Groq API key
+# Edit .env.local and set GROQ_API_KEY=gsk_...
+
+# Start the dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+app/
+  layout.tsx          — Root layout with Navbar
+  page.tsx            — Home page (server component)
+  globals.css         — Tailwind + CSS custom properties
+  api/analyze/route.ts — POST endpoint for Groq analysis
 
-## Learn More
+components/
+  navbar.tsx          — Sticky navigation bar
+  analysis-form.tsx   — Main client component (state orchestrator)
+  job-description-panel.tsx
+  resume-panel.tsx    — Upload PDF / Paste Text tabs
+  file-drop-zone.tsx  — Drag-and-drop PDF upload
+  analyze-button.tsx  — Submit button with loading state
+  results/            — All result display components
 
-To learn more about Next.js, take a look at the following resources:
+hooks/
+  use-analysis.ts     — Fetch to /api/analyze with loading/error state
+  use-pdf-extract.ts  — Client-side PDF text extraction
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+lib/
+  groq.ts             — Server-only Groq client + prompt
+  colors.ts           — Score-to-color utility functions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+types/
+  analysis.ts         — TypeScript interfaces + Zod schemas
+```
 
-## Deploy on Vercel
+## Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Next.js 15** (App Router)
+- **TypeScript**
+- **Tailwind CSS 4**
+- **Groq SDK** (server-side LLM calls)
+- **pdf.js** (client-side PDF parsing)
+- **Zod** (request/response validation)
