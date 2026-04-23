@@ -1,6 +1,6 @@
 import Groq from "groq-sdk";
 
-const MAX_INPUT_CHARS = 4000;
+export const MAX_INPUT_CHARS = 12000;
 
 let _client: Groq | null = null;
 

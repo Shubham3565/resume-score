@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { AnalyzeRequestSchema, AnalysisResultSchema } from "@/types/analysis";
-import { analyzeMatch } from "@/lib/groq";
+import { analyzeMatch, MAX_INPUT_CHARS } from "@/lib/groq";
 
 /**
  * POST /api/analyze
@@ -43,6 +43,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const { jobDescription, resume } = parsed.data;
 
+  const jdTruncated = jobDescription.length > MAX_INPUT_CHARS;
+  const resumeTruncated = resume.length > MAX_INPUT_CHARS;
+
   try {
     const rawJson = await analyzeMatch(jobDescription, resume);
     const analysisData = JSON.parse(rawJson);
@@ -55,7 +58,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    return NextResponse.json(validated.data);
+    return NextResponse.json({
+      ...validated.data,
+      truncation: {
+        resumeTruncated,
+        jdTruncated,
+        maxChars: MAX_INPUT_CHARS,
+        resumeOriginalLength: resume.length,
+        jdOriginalLength: jobDescription.length,
+      },
+    });
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Unknown error occurred";
