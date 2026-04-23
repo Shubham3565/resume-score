@@ -42,14 +42,47 @@ KEYWORD MATCHING RULES:
 - "skills_gap" must ONLY contain skills genuinely absent from the entire resume. Double-check each one.
 - Do NOT hallucinate missing skills that are actually present.
 
-EVALUATION DIMENSIONS:
+EVALUATION DIMENSIONS (use these specific rubrics — do NOT default to safe middle numbers):
+
 1. **skill_score** (0-100): How well do the candidate's technical/functional skills match the JD requirements?
+   - 90-100: All or nearly all required skills present
+   - 70-89: Most required skills present, missing a few
+   - 50-69: About half the required skills present
+   - Below 50: Major skill gaps
+
 2. **experience_score** (0-100): Does the seniority level, years of experience, and domain relevance match?
-3. **education_score** (0-100): Does the education background meet JD requirements?
-4. **keyword_density_score** (0-100): What percentage of JD keywords appear in the resume?
-5. **impact_score** (0-100): Does the resume quantify achievements with numbers, metrics, percentages, or measurable outcomes? (e.g. "Reduced latency by 40%" scores high; "Worked on performance" scores low)
+   - 90-100: Years and seniority match exactly, same domain
+   - 70-89: Close match in seniority, adjacent domain
+   - 50-69: Some relevant experience but different level or domain
+   - Below 50: Significant mismatch in seniority or experience
+
+3. **education_score** (0-100): Score based on how well the resume education meets JD education requirements. Use this rubric strictly:
+   - 95-100: Resume degree EXCEEDS JD requirement (e.g. JD asks Bachelor's, resume has Master's/PhD in same field)
+   - 90-95: Resume degree EXACTLY matches JD requirement (same level + same or closely related field)
+   - 75-89: Resume has the right degree level but in a somewhat different field
+   - 60-74: Resume has a lower degree than required but in the right field
+   - 40-59: Resume education is partially relevant
+   - Below 40: Education doesn't match at all
+   - If JD does NOT mention specific education requirements, give 85-90 if the resume has any relevant degree
+
+4. **keyword_density_score** (0-100): What percentage of JD keywords appear in the resume? (matched_count / total_jd_keywords * 100)
+
+5. **impact_score** (0-100): Does the resume quantify achievements with numbers, metrics, percentages, or measurable outcomes?
+   - 90-100: Most bullet points have specific metrics (e.g. "Reduced latency by 40%", "Managed $2M budget")
+   - 70-89: Some quantified achievements mixed with vague ones
+   - 50-69: Mostly vague descriptions with rare metrics
+   - Below 50: No measurable outcomes, uses weak phrases like "worked on", "helped with"
+
 6. **tailoring_score** (0-100): How customized is this resume for THIS specific job? Does it mirror the JD language, reference similar goals, or feel like a generic resume?
+   - 90-100: Summary and bullets directly mirror JD terminology and priorities
+   - 70-89: Some JD-specific language but partially generic
+   - Below 70: Generic resume not customized for this role
+
 7. **title_alignment_score** (0-100): How well do the candidate's previous job titles align with the target role?
+   - 90-100: Previous titles are the same or very similar to the target role
+   - 70-89: Related titles at a similar level
+   - 50-69: Tangentially related titles or different seniority level
+   - Below 50: Completely different career track
 
 RED FLAGS — Identify any of these if present:
 - Job hopping (multiple roles < 1 year without explanation)
