@@ -32,17 +32,25 @@ function getClient(): Groq {
  *   Formatted prompt string for the LLM.
  */
 function buildPrompt(jobDescription: string, resume: string): string {
-  return `You are an ATS expert. Analyze the match between the job description and resume.
+  return `You are an ATS (Applicant Tracking System) expert. Carefully analyze how well the RESUME matches the JOB DESCRIPTION.
+
+CRITICAL RULES:
+- Before listing any keyword as "missing" or any skill in "skills_gap", you MUST search the ENTIRE resume text for that word or its synonyms/variations (e.g. "Python", "python", "PYTHON", "Python3" all count as the same skill).
+- A keyword is "matched" if it appears ANYWHERE in the resume, even once — in skills sections, project descriptions, work experience, or education.
+- A keyword is "partial" only if a closely related but not exact term appears (e.g. JD says "Kubernetes" but resume says "Docker" or "containerization").
+- A keyword is "missing" ONLY if neither the exact term nor any reasonable synonym/variation appears anywhere in the resume.
+- "skills_gap" must ONLY contain skills that are required in the JD and genuinely do NOT appear anywhere in the resume. Double-check each one.
+- "keywords_bonus" are skills in the resume that are relevant but not explicitly in the JD.
 
 Return ONLY a valid JSON object — no markdown, no backticks. Schema:
 {
   "score": <0-100>,
   "verdict": "<Strong Match|Good Match|Fair Match|Weak Match>",
-  "verdict_reason": "<1 sentence>",
-  "keywords_matched": ["..."],
-  "keywords_missing": ["..."],
-  "keywords_partial": ["..."],
-  "keywords_bonus": ["..."],
+  "verdict_reason": "<1 sentence explaining the overall match>",
+  "keywords_matched": ["<keywords from JD found in resume>"],
+  "keywords_missing": ["<keywords from JD NOT found in resume — verify each one>"],
+  "keywords_partial": ["<keywords with related but not exact matches>"],
+  "keywords_bonus": ["<relevant resume skills not explicitly in JD>"],
   "skill_score": <0-100>,
   "experience_score": <0-100>,
   "education_score": <0-100>,
@@ -50,10 +58,10 @@ Return ONLY a valid JSON object — no markdown, no backticks. Schema:
   "total_keywords_in_jd": <integer>,
   "total_keywords_matched": <integer>,
   "tips": [{ "type": "<warn|ok|info>", "text": "<specific actionable tip>" }],
-  "skills_gap": ["<missing skill>"]
+  "skills_gap": ["<skills required in JD but truly absent from the entire resume>"]
 }
 
-Be accurate and honest — not generous. Give 5-7 tips.
+Be accurate and honest — not generous. Give 5-7 tips. Do NOT hallucinate missing skills that are actually present in the resume.
 
 JOB DESCRIPTION:
 ${jobDescription.slice(0, MAX_INPUT_CHARS)}
